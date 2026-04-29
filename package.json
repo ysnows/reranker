@@ -1,0 +1,148 @@
+{
+  "$schema": "https://enconvo.com/schemas/extension.json",
+  "name": "reranker",
+  "version": "1.0.11",
+  "description": "Reranker provider integrations for Voyage AI, SiliconFlow, and Enconvo Cloud Plan, with model management APIs.",
+  "title": "Reranker Providers",
+  "icon": "icon.png",
+  "author": "EnconvoAI",
+  "license": "MIT",
+  "categories": [
+    "Provider"
+  ],
+  "type": "module",
+  "commands": [
+    {
+      "name": "enconvo_ai",
+      "title": "EnConvo Cloud Plan",
+      "description": "Reranker with Enconvo Cloud Plan , learn more : [docs](https://docs.enconvo.com/docs/providers/reranker)",
+      "icon": "enconvo.png",
+      "mode": "no-view",
+      "commandType": "provider",
+      "provider_category": "reranker",
+      "preferences": [
+        {
+          "name": "modelName",
+          "description": "The model to generate the completion.",
+          "type": "dropdown",
+          "required": true,
+          "title": "Model Name",
+          "default": "voyage/rerank-2.5",
+          "dataProxy": "reranker/models/enconvo_ai"
+        }
+      ],
+      "private": true
+    },
+    {
+      "name": "voyage",
+      "title": "Voyage AI",
+      "description": "Reranker with Voyage AI , learn more : [docs](https://docs.voyageai.com/docs/reranker)",
+      "icon": "voyage.png",
+      "mode": "no-view",
+      "commandType": "provider",
+      "provider_category": "reranker",
+      "preferences": [
+        {
+          "name": "credentials",
+          "description": "The key management provider to use",
+          "type": "extension",
+          "required": false,
+          "default": "voyage",
+          "extensionType": "credentials-provider",
+          "extensionFilter": {
+            "targetCommands": [
+              "credentials|voyage"
+            ]
+          },
+          "title": "Credential Provider"
+        },
+        {
+          "name": "modelName",
+          "description": "The model to generate the completion.",
+          "type": "dropdown",
+          "required": true,
+          "title": "Model Name",
+          "default": "rerank-2.5",
+          "dataProxy": "reranker/models/voyage"
+        }
+      ],
+      "private": true
+    },
+    {
+      "name": "qwen3-mlx",
+      "title": "Qwen3-Reranker (Local)",
+      "description": "Local on-device reranking using [Qwen3-Reranker](https://huggingface.co/Qwen) on Apple Silicon — runs entirely offline through the `mlx_manage` extension. Multilingual. The model is pulled from HuggingFace on first use.",
+      "icon": "qwen3.png",
+      "mode": "no-view",
+      "commandType": "provider",
+      "provider_category": "reranker",
+      "preferences": [
+        {
+          "name": "modelName",
+          "description": "Pick a Qwen3-Reranker variant. 0.6B for speed, 4B/8B for quality.",
+          "type": "dropdown",
+          "style": "mlx-reranker",
+          "required": false,
+          "title": "Model",
+          "default": "mlx-community/Qwen3-Reranker-0.6B-mxfp8",
+          "dataProxy": "reranker/mlx_reranker/qwen3/models"
+        }
+      ],
+      "private": true
+    },
+    {
+      "name": "siliconflow",
+      "title": "SiliconFlow",
+      "description": "Reranker with [SiliconFlow](https://siliconflow.cn)",
+      "icon": "siliconflow.png",
+      "mode": "no-view",
+      "commandType": "provider",
+      "provider_category": "reranker",
+      "preferences": [
+        {
+          "name": "credentials",
+          "description": "The key management provider to use",
+          "type": "extension",
+          "required": false,
+          "default": "siliconflow",
+          "extensionType": "credentials-provider",
+          "extensionFilter": {
+            "targetCommands": [
+              "credentials|siliconflow"
+            ]
+          },
+          "title": "Credential Provider"
+        },
+        {
+          "name": "modelName",
+          "description": "The model to generate the reranker.",
+          "type": "dropdown",
+          "required": false,
+          "title": "Model Name",
+          "default": "netease-youdao/bce-reranker-base_v1",
+          "dataProxy": "reranker/models/siliconflow"
+        }
+      ],
+      "private": true
+    }
+  ],
+  "dependencies": {
+    "@enconvo/api": "link:../../enconvo.nodejs/enconvo_api",
+    "axios": "^1.6.8"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "eslint": "^8.57.0",
+    "prettier": "^2.8.8",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "lint": "eslint src",
+    "lint:fix": "npm run lint --fix",
+    "format": "prettier --write \"**/*.ts\"",
+    "format:check": "prettier --list-different \"**/*.ts\"",
+    "build": "enconvo dev",
+    "dev": "enconvo dev --dev"
+  },
+  "minAppVersion": "1.8.8"
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "name": "rerank",
+    "title": "rerank",
+    "description": "Rerank a list of documents against a query using the configured reranker provider. Returns a Voyage-compatible response: `{ object: \"list\", data: [{ relevance_score, index }], model, usage }`.",
+    "routePath": "reranker/rerank",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Search query used to rank the documents by relevance"
+        },
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": ""
+          },
+          "description": "Documents to score and rank against the query"
+        },
+        "model": {
+          "type": "string",
+          "description": "Model name echoed back in the response. The active reranker model is determined by the configured provider."
+        },
+        "top_n": {
+          "type": "number",
+          "description": "Limit the response to the top N most relevant documents, sorted by descending relevance_score"
+        }
+      },
+      "required": [
+        "query",
+        "documents"
+      ]
+    }
+  },
+  {
+    "name": "models",
+    "title": "models",
+    "description": "Router for models",
+    "routes": [
+      {
+        "name": "enconvo_ai",
+        "description": "",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "routePath": "reranker/models/enconvo_ai"
+      },
+      {
+        "name": "siliconflow",
+        "description": "",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "routePath": "reranker/models/siliconflow"
+      },
+      {
+        "name": "voyage",
+        "description": "",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "routePath": "reranker/models/voyage"
+      }
+    ]
+  }
+]
