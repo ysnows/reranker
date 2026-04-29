@@ -12,6 +12,7 @@ export const qwen3RerankerModels = [
     is_bring_your_own_key: false,
     supports_streaming: false,
     context: 32768,
+    download_size: "600 MB",
   },
   {
     title: "Qwen3-Reranker 0.6B (4bit DWQ)",
@@ -24,6 +25,7 @@ export const qwen3RerankerModels = [
     is_bring_your_own_key: false,
     supports_streaming: false,
     context: 32768,
+    download_size: "335 MB",
   },
   {
     title: "Qwen3-Reranker 4B (4bit DWQ)",
@@ -36,6 +38,7 @@ export const qwen3RerankerModels = [
     is_bring_your_own_key: false,
     supports_streaming: false,
     context: 32768,
+    download_size: "2.1 GB",
   },
   {
     title: "Qwen3-Reranker 8B (4bit DWQ)",
@@ -48,6 +51,7 @@ export const qwen3RerankerModels = [
     is_bring_your_own_key: false,
     supports_streaming: false,
     context: 32768,
+    download_size: "4.0 GB",
   },
 ];
 

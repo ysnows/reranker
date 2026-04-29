@@ -70,7 +70,7 @@
     },
     {
       "name": "qwen3-mlx",
-      "title": "Qwen3-Reranker (Local)",
+      "title": "Qwen3 (mlx)",
       "description": "Local on-device reranking using [Qwen3-Reranker](https://huggingface.co/Qwen) on Apple Silicon — runs entirely offline through the `mlx_manage` extension. Multilingual. The model is pulled from HuggingFace on first use.",
       "icon": "qwen3.png",
       "mode": "no-view",
@@ -86,6 +86,28 @@
           "title": "Model",
           "default": "mlx-community/Qwen3-Reranker-0.6B-mxfp8",
           "dataProxy": "reranker/mlx_reranker/qwen3/models"
+        }
+      ],
+      "private": true
+    },
+    {
+      "name": "jina-mlx",
+      "title": "Jina (mlx)",
+      "description": "Local on-device reranking using [Jina Reranker v3](https://huggingface.co/jinaai/jina-reranker-v3-mlx) on Apple Silicon — runs entirely offline through the `mlx_manage` extension. Multilingual. The model is pulled from HuggingFace on first use.",
+      "icon": "jina.jpg",
+      "mode": "no-view",
+      "commandType": "provider",
+      "provider_category": "reranker",
+      "preferences": [
+        {
+          "name": "modelName",
+          "description": "Jina Reranker v3 — multilingual listwise reranker (~1.2 GB download).",
+          "type": "dropdown",
+          "style": "mlx-reranker",
+          "required": false,
+          "title": "Model",
+          "default": "jinaai/jina-reranker-v3-mlx",
+          "dataProxy": "reranker/mlx_reranker/jina/models"
         }
       ],
       "private": true
