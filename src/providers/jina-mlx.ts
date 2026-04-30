@@ -1,6 +1,6 @@
 import { RerankerProvider } from "@enconvo/api";
 
-const MLX_BASE_URL = "http://127.0.0.1:54535/mlx_manage/mlx_reranker";
+const OMLX_BASE_URL = "http://127.0.0.1:54536";
 const DEFAULT_MODEL = "jinaai/jina-reranker-v3-mlx";
 
 export default function main(options: RerankerProvider.RerankerOptions) {
@@ -21,13 +21,14 @@ export class JinaMlxRerankerProvider extends RerankerProvider {
     };
     const modelId = opts.modelName?.value || DEFAULT_MODEL;
 
-    const resp = await fetch(`${MLX_BASE_URL}/rerank`, {
+    const resp = await fetch(`${OMLX_BASE_URL}/v1/rerank`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        hf_model_id: modelId,
+        model: modelId,
         query,
         documents,
+        return_documents: false,
       }),
     });
 
@@ -39,13 +40,13 @@ export class JinaMlxRerankerProvider extends RerankerProvider {
     }
 
     const data = (await resp.json()) as {
-      data?: { index: number; relevance_score: number }[];
+      results?: { index: number; relevance_score: number }[];
       model?: string;
       usage?: Record<string, number>;
     };
-    if (!data.data || !Array.isArray(data.data)) {
+    if (!data.results || !Array.isArray(data.results)) {
       throw new Error(
-        "MLX Jina reranker: malformed response — missing 'data' array"
+        "MLX Jina reranker: malformed response — missing 'results' array"
       );
     }
 
@@ -54,7 +55,7 @@ export class JinaMlxRerankerProvider extends RerankerProvider {
         model: data.model,
         usage: data.usage,
       },
-      data: data.data.map((item) => ({
+      data: data.results.map((item) => ({
         relevance_score: item.relevance_score,
         index: item.index,
       })),
