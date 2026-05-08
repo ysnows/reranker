@@ -2,11 +2,11 @@ import { ListCache, RequestOptions } from "@enconvo/api";
 
 export const jinaRerankerModels = [
   {
-    title: "Jina Reranker v3 (MLX)",
+    title: "Jina Reranker v3",
     value: "jinaai/jina-reranker-v3-mlx",
     id: "jina-reranker-v3-mlx",
     description:
-      "Jina Reranker v3 (MLX) — multilingual listwise reranker, on-device on Apple Silicon.",
+      "Jina Reranker v3 — multilingual listwise reranker, on-device on Apple Silicon.",
     is_online: false,
     is_enconvo_cloud: false,
     is_bring_your_own_key: false,

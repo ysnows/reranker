@@ -1,6 +1,5 @@
-import { RerankerProvider } from "@enconvo/api";
+import { NativeAPI, RerankerProvider } from "@enconvo/api";
 
-const OMLX_BASE_URL = "http://127.0.0.1:54536";
 const DEFAULT_MODEL = "jinaai/jina-reranker-v3-mlx";
 
 export default function main(options: RerankerProvider.RerankerOptions) {
@@ -12,6 +11,17 @@ export class JinaMlxRerankerProvider extends RerankerProvider {
     super(fields);
   }
 
+  async preload(): Promise<void> {
+    const opts = this.options as RerankerProvider.RerankerOptions & {
+      modelName?: { value: string };
+    };
+    const modelId = opts.modelName?.value || DEFAULT_MODEL;
+    await NativeAPI.localApi("mlx_manage/model/load", {
+      model_id: modelId,
+      category: "reranker",
+    }).catch(() => undefined);
+  }
+
   protected async _rerank(
     query: string,
     documents: string[]
@@ -21,15 +31,11 @@ export class JinaMlxRerankerProvider extends RerankerProvider {
     };
     const modelId = opts.modelName?.value || DEFAULT_MODEL;
 
-    const resp = await fetch(`${OMLX_BASE_URL}/v1/rerank`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: modelId,
-        query,
-        documents,
-        return_documents: false,
-      }),
+    const resp = await NativeAPI.localApi("mlx_manage/mlx_reranker/rerank", {
+      hf_model_id: modelId,
+      query,
+      documents,
+      return_documents: false,
     });
 
     if (!resp.ok) {
@@ -40,13 +46,13 @@ export class JinaMlxRerankerProvider extends RerankerProvider {
     }
 
     const data = (await resp.json()) as {
-      results?: { index: number; relevance_score: number }[];
+      data?: { index: number; relevance_score: number }[];
       model?: string;
       usage?: Record<string, number>;
     };
-    if (!data.results || !Array.isArray(data.results)) {
+    if (!data.data || !Array.isArray(data.data)) {
       throw new Error(
-        "MLX Jina reranker: malformed response — missing 'results' array"
+        "MLX Jina reranker: malformed response — missing 'data' array"
       );
     }
 
@@ -55,7 +61,7 @@ export class JinaMlxRerankerProvider extends RerankerProvider {
         model: data.model,
         usage: data.usage,
       },
-      data: data.results.map((item) => ({
+      data: data.data.map((item) => ({
         relevance_score: item.relevance_score,
         index: item.index,
       })),

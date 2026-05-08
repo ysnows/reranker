@@ -1,7 +1,7 @@
 {
   "$schema": "https://enconvo.com/schemas/extension.json",
   "name": "reranker",
-  "version": "1.0.11",
+  "version": "1.0.19",
   "description": "Reranker provider integrations for Voyage AI, SiliconFlow, and Enconvo Cloud Plan, with model management APIs.",
   "title": "Reranker Providers",
   "icon": "icon.png",
@@ -81,7 +81,7 @@
           "name": "modelName",
           "description": "Pick a Qwen3-Reranker variant. 0.6B for speed, 4B/8B for quality.",
           "type": "dropdown",
-          "style": "mlx",
+          "style": "mlx-reranker",
           "required": false,
           "title": "Model",
           "default": "mlx-community/Qwen3-Reranker-0.6B-mxfp8",
@@ -103,7 +103,7 @@
           "name": "modelName",
           "description": "Jina Reranker v3 — multilingual listwise reranker (~1.2 GB download).",
           "type": "dropdown",
-          "style": "mlx",
+          "style": "mlx-reranker",
           "required": false,
           "title": "Model",
           "default": "jinaai/jina-reranker-v3-mlx",
@@ -166,5 +166,11 @@
     "build": "enconvo dev",
     "dev": "enconvo dev --dev"
   },
-  "minAppVersion": "1.8.8"
+  "minAppVersion": "1.8.8",
+  "lifecycle": {
+    "onAppStarted": {
+      "type": "api",
+      "path": "reranker/on_app_started"
+    }
+  }
 }

@@ -19,10 +19,6 @@
           },
           "description": "Documents to score and rank against the query"
         },
-        "model": {
-          "type": "string",
-          "description": "Model name echoed back in the response. The active reranker model is determined by the configured provider."
-        },
         "top_n": {
           "type": "number",
           "description": "Limit the response to the top N most relevant documents, sorted by descending relevance_score"
